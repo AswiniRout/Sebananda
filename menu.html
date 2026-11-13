@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Menu – Jibamrit Agro (OPC) Private Limited</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <style>
+    :root {
+      --orange: #F47920;
+      --green:  #5DB035;
+      --dark:   #1a2e1a;
+      --light-bg: #f7f9f4;
+      --wa: #25D366;
+    }
+    body { font-family: 'Segoe UI', sans-serif; color: #333; background: var(--light-bg); }
+
+    /* ── Navbar ── */
+    .navbar { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+    .navbar-brand img { height: 56px; }
+    .nav-link { font-weight: 500; color: var(--dark) !important; transition: color .2s; }
+    .nav-link:hover, .nav-link.active { color: var(--green) !important; }
+    .btn-enquire {
+      background: var(--orange); color: #fff; border: none;
+      border-radius: 25px; padding: 8px 22px; font-weight: 600;
+      text-decoration: none; transition: background .2s;
+    }
+    .btn-enquire:hover { background: #d4651a; color: #fff; }
+
+    /* ── Page Banner ── */
+    .page-banner {
+      background: linear-gradient(135deg, #1a2e1a 0%, #2d5016 55%, #3a6b1c 100%);
+      padding: 70px 0 50px; position: relative; overflow: hidden;
+    }
+    .page-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1543362906-acfc16c67564?w=1400&q=80') center/cover no-repeat;
+      opacity: .13;
+    }
+    .page-banner .container { position: relative; z-index: 2; }
+    .page-banner h1 { color: #fff; font-weight: 800; font-size: clamp(1.9rem, 4vw, 3rem); }
+    .page-banner p { color: #d4e8c2; font-size: 1.05rem; }
+    .breadcrumb-item a { color: var(--orange); text-decoration: none; }
+    .breadcrumb-item.active { color: #d4e8c2; }
+    .breadcrumb-item + .breadcrumb-item::before { color: #aaa; }
+
+    /* ── How to Order Banner ── */
+    .how-banner {
+      background: var(--wa); color: #fff;
+      padding: 18px 0; text-align: center;
+    }
+    .how-banner p { margin: 0; font-size: .95rem; font-weight: 500; }
+    .how-banner a { color: #fff; font-weight: 700; text-decoration: underline; }
+
+    /* ── Category Filter Tabs ── */
+    .filter-tabs .btn-filter {
+      border: 2px solid #d8e8d0; background: #fff; color: #555;
+      border-radius: 24px; padding: 7px 20px; font-size: .88rem;
+      font-weight: 600; cursor: pointer; transition: all .2s;
+      white-space: nowrap;
+    }
+    .filter-tabs .btn-filter:hover,
+    .filter-tabs .btn-filter.active {
+      background: var(--green); border-color: var(--green); color: #fff;
+    }
+
+    /* ── Category Heading ── */
+    .cat-heading {
+      font-weight: 800; font-size: 1.3rem; color: var(--dark);
+      display: flex; align-items: center; gap: 10px;
+      border-left: 5px solid var(--orange); padding-left: 14px;
+      margin-bottom: 20px; margin-top: 44px;
+    }
+    .cat-heading span { font-size: 1.5rem; }
+
+    /* ── Product Card ── */
+    .product-card {
+      background: #fff; border-radius: 16px;
+      border: 1.5px solid #e8f0e0;
+      box-shadow: 0 3px 14px rgba(0,0,0,.06);
+      transition: transform .25s, box-shadow .25s;
+      overflow: hidden; height: 100%;
+      display: flex; flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.12);
+      border-color: var(--green);
+    }
+    .product-card .card-emoji {
+      font-size: 3rem; text-align: center;
+      padding: 24px 16px 10px;
+      background: linear-gradient(180deg, #f0f9e8 0%, #fff 100%);
+    }
+    .product-card .card-body { flex: 1; padding: 14px 18px 10px; }
+    .product-card .card-title { font-weight: 700; color: var(--dark); font-size: 1rem; margin-bottom: 4px; }
+    .product-card .card-desc { color: #777; font-size: .82rem; line-height: 1.5; margin-bottom: 10px; }
+    .unit-badge {
+      display: inline-block; background: #e8f4e0; color: var(--green);
+      border-radius: 20px; padding: 3px 11px; font-size: .78rem; font-weight: 600;
+    }
+    .organic-tag {
+      display: inline-block; background: #fff3e0; color: var(--orange);
+      border-radius: 20px; padding: 3px 11px; font-size: .78rem; font-weight: 600;
+      margin-left: 4px;
+    }
+    .card-footer-area {
+      padding: 10px 18px 16px;
+      border-top: 1px solid #f0f4ec;
+    }
+    .btn-wa-order {
+      display: flex; align-items: center; justify-content: center; gap-7px;
+      background: var(--wa); color: #fff; border: none;
+      border-radius: 24px; padding: 9px 16px;
+      font-size: .88rem; font-weight: 700; width: 100%;
+      text-decoration: none; gap: 7px;
+      transition: background .2s, transform .15s;
+    }
+    .btn-wa-order:hover { background: #1aad57; color: #fff; transform: scale(1.03); }
+    .btn-wa-order i { font-size: 1.1rem; }
+
+    /* ── Bulk / Shop CTA ── */
+    .bulk-cta {
+      background: linear-gradient(90deg, var(--dark) 0%, #2d5016 100%);
+      border-radius: 20px; color: #fff; padding: 42px 36px;
+      text-align: center;
+    }
+    .bulk-cta h3 { font-weight: 800; font-size: 1.7rem; }
+    .bulk-cta p { color: #c8e0b0; max-width: 560px; margin: 10px auto 24px; }
+    .btn-bulk-wa {
+      background: var(--wa); color: #fff; font-weight: 700;
+      border-radius: 30px; padding: 13px 36px; border: none;
+      font-size: 1rem; text-decoration: none; display: inline-flex;
+      align-items: center; gap: 8px; transition: all .2s;
+    }
+    .btn-bulk-wa:hover { background: #1aad57; color: #fff; transform: translateY(-2px); }
+    .btn-bulk-call {
+      background: transparent; color: #fff; font-weight: 700;
+      border-radius: 30px; padding: 11px 34px;
+      border: 2px solid rgba(255,255,255,.5);
+      font-size: 1rem; text-decoration: none; display: inline-flex;
+      align-items: center; gap: 8px; transition: all .2s; margin-left: 10px;
+    }
+    .btn-bulk-call:hover { background: #fff; color: var(--dark); border-color: #fff; }
+
+    /* ── How to Order Steps ── */
+    .step-wrap { background: #fff; border-radius: 18px; padding: 36px 28px; }
+    .step-item { text-align: center; padding: 16px; }
+    .step-num {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      font-weight: 800; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .step-item h6 { font-weight: 700; color: var(--dark); }
+    .step-item p { color: #777; font-size: .88rem; }
+    .step-arrow { font-size: 1.8rem; color: #d0e8c0; align-self: center; text-align: center; }
+
+    /* ── WhatsApp float ── */
+    .whatsapp-float {
+      position: fixed; bottom: 28px; right: 28px; z-index: 999;
+      width: 58px; height: 58px; background: var(--wa);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      text-decoration: none; color: #fff; font-size: 1.7rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(0,0,0,.25); color: #fff; }
+    .float-pulse {
+      position: absolute; width: 100%; height: 100%; border-radius: 50%;
+      background: var(--wa); opacity: .5;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%   { transform: scale(1);   opacity: .5; }
+      70%  { transform: scale(1.5); opacity: 0;  }
+      100% { transform: scale(1.5); opacity: 0;  }
+    }
+
+    /* ── Footer ── */
+    footer { background: var(--dark); color: #ccc; }
+    footer h6 { color: #fff; font-weight: 700; margin-bottom: 14px; }
+    footer a { color: #aaa; text-decoration: none; display: block; margin-bottom: 6px; transition: color .2s; }
+    footer a:hover { color: var(--orange); }
+    .footer-logo { height: 50px; filter: brightness(0) invert(1); margin-bottom: 12px; }
+    .social-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.1); display: inline-flex;
+      align-items: center; justify-content: center; color: #fff;
+      font-size: 1rem; text-decoration: none; margin-right: 6px;
+      transition: background .2s;
+    }
+    .social-icon:hover { background: var(--orange); color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); }
+    .badge-msme {
+      background: rgba(255,255,255,.1); border-radius: 20px;
+      padding: 4px 14px; font-size: .78rem; color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20place%20an%20order."
+   class="whatsapp-float" target="_blank" aria-label="Order on WhatsApp">
+  <span class="float-pulse"></span>
+  <i class="bi bi-whatsapp" style="position:relative;z-index:1;"></i>
+</a>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="assets/img/logo.jpeg" alt="Jibamrit Agro Logo"/>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link active" href="menu.html">Order Menu</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#certifications">Certifications</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="btn-enquire" href="contact.html">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════ HOW TO ORDER STRIP ══════════════ -->
+<div class="how-banner">
+  <p>
+    <i class="bi bi-whatsapp me-1"></i>
+    Place your order instantly on WhatsApp —
+    <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20place%20an%20order." target="_blank">
+      tap any "Order on WhatsApp" button below
+    </a>
+    or call <a href="tel:8249670050">8249670050</a>
+  </p>
+</div>
+
+<!-- ══════════════ PAGE BANNER ══════════════ -->
+<section class="page-banner">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Order Menu</li>
+      </ol>
+    </nav>
+    <h1><i class="bi bi-basket2-fill me-2" style="color:var(--orange);"></i>Organic Product Menu</h1>
+    <p class="mb-0">Browse our full range of organic produce and order directly on WhatsApp — available for shops, retailers and home buyers</p>
+  </div>
+</section>
+
+<!-- ══════════════ FILTER TABS ══════════════ -->
+<div class="container py-4">
+  <div class="filter-tabs d-flex flex-wrap gap-2" id="filterTabs">
+    <button class="btn-filter active" data-cat="all">🌿 All Products</button>
+    <button class="btn-filter" data-cat="vegetables">🥦 Fruits &amp; Vegetables</button>
+    <button class="btn-filter" data-cat="dairy">🥛 Dairy</button>
+    <button class="btn-filter" data-cat="oils">🫙 Oils &amp; Fats</button>
+    <button class="btn-filter" data-cat="spices">🌶️ Spices</button>
+    <button class="btn-filter" data-cat="tea">🍃 Tea &amp; Herbal</button>
+    <button class="btn-filter" data-cat="grains">🌾 Grains &amp; Staples</button>
+  </div>
+</div>
+
+<!-- ══════════════ PRODUCTS ══════════════ -->
+<div class="container pb-2" id="menuContainer">
+
+  <!-- FRUITS & VEGETABLES -->
+  <div class="cat-section" data-cat="vegetables">
+    <div class="cat-heading"><span>🥦</span> Fruits &amp; Vegetables</div>
+    <div class="row g-3">
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🍅</div>
+          <div class="card-body">
+            <div class="card-title">Organic Tomato</div>
+            <div class="card-desc">Farm-fresh, chemical-free tomatoes. Juicy and naturally ripened.</div>
+            <span class="unit-badge">Per Kg / Bulk</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Tomatoes.%20Please%20share%20availability%20and%20price."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🧅</div>
+          <div class="card-body">
+            <div class="card-title">Organic Onion</div>
+            <div class="card-desc">Naturally grown onions — available in retail and wholesale quantities.</div>
+            <span class="unit-badge">Per Kg / Bag</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Onions.%20Please%20share%20availability%20and%20price."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🥔</div>
+          <div class="card-body">
+            <div class="card-title">Organic Potato</div>
+            <div class="card-desc">Earthy, wholesome potatoes grown without synthetic pesticides.</div>
+            <span class="unit-badge">Per Kg / Bag</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Potatoes.%20Please%20share%20availability%20and%20price."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🍌</div>
+          <div class="card-body">
+            <div class="card-title">Seasonal Fruits</div>
+            <div class="card-desc">Fresh seasonal fruits directly from local organic farms in Odisha.</div>
+            <span class="unit-badge">Per Kg / Dozen</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Seasonal%20Fruits.%20Please%20share%20what%20is%20available%20and%20price."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🥬</div>
+          <div class="card-body">
+            <div class="card-title">Leafy Greens</div>
+            <div class="card-desc">Spinach, fenugreek, coriander and more — harvested fresh daily.</div>
+            <span class="unit-badge">Per Bundle / Kg</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Leafy%20Greens.%20Please%20share%20availability%20and%20price."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🥕</div>
+          <div class="card-body">
+            <div class="card-title">Root Vegetables</div>
+            <div class="card-desc">Carrot, radish, beetroot — naturally grown root vegetables in season.</div>
+            <span class="unit-badge">Per Kg / Bulk</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Root%20Vegetables.%20Please%20share%20availability%20and%20price."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DAIRY -->
+  <div class="cat-section" data-cat="dairy">
+    <div class="cat-heading"><span>🥛</span> Raw Milk &amp; Dairy Products</div>
+    <div class="row g-3">
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🥛</div>
+          <div class="card-body">
+            <div class="card-title">Fresh Raw Milk</div>
+            <div class="card-desc">Pure, unprocessed cow milk from naturally raised cattle. No additives.</div>
+            <span class="unit-badge">Per Litre</span>
+            <span class="organic-tag">🌿 Natural</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Fresh%20Raw%20Milk.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🧈</div>
+          <div class="card-body">
+            <div class="card-title">Pure Desi Ghee</div>
+            <div class="card-desc">Traditionally churned desi ghee — rich aroma, no artificial additives.</div>
+            <span class="unit-badge">Per 500g / Kg</span>
+            <span class="organic-tag">🌿 Natural</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Pure%20Desi%20Ghee.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🍶</div>
+          <div class="card-body">
+            <div class="card-title">Curd / Yogurt</div>
+            <div class="card-desc">Set curd made from fresh milk — creamy, natural and probiotic-rich.</div>
+            <span class="unit-badge">Per 500g / Kg</span>
+            <span class="organic-tag">🌿 Natural</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Curd%20%2F%20Yogurt.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🧀</div>
+          <div class="card-body">
+            <div class="card-title">Paneer (Cottage Cheese)</div>
+            <div class="card-desc">Fresh home-style paneer made daily from pure milk. Soft and nutritious.</div>
+            <span class="unit-badge">Per 250g / 500g</span>
+            <span class="organic-tag">🌿 Natural</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Fresh%20Paneer.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OILS -->
+  <div class="cat-section" data-cat="oils">
+    <div class="cat-heading"><span>🫙</span> Edible Oils &amp; Fats</div>
+    <div class="row g-3">
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🫙</div>
+          <div class="card-body">
+            <div class="card-title">Cold-Pressed Mustard Oil</div>
+            <div class="card-desc">Kachi ghani mustard oil — pure, pungent and traditionally extracted.</div>
+            <span class="unit-badge">Per Litre / 5L</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Cold-Pressed%20Mustard%20Oil.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🥥</div>
+          <div class="card-body">
+            <div class="card-title">Virgin Coconut Oil</div>
+            <div class="card-desc">Cold-pressed virgin coconut oil — unrefined, chemical-free, multipurpose.</div>
+            <span class="unit-badge">Per 500ml / Litre</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Virgin%20Coconut%20Oil.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🌻</div>
+          <div class="card-body">
+            <div class="card-title">Groundnut Oil</div>
+            <div class="card-desc">Natural groundnut oil, wood-pressed with no chemicals. Great for cooking.</div>
+            <span class="unit-badge">Per Litre / 5L</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Groundnut%20Oil.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🌿</div>
+          <div class="card-body">
+            <div class="card-title">Sesame (Til) Oil</div>
+            <div class="card-desc">Cold-pressed sesame oil — rich in antioxidants, ideal for cooking and health.</div>
+            <span class="unit-badge">Per 500ml / Litre</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Sesame%20Oil.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SPICES -->
+  <div class="cat-section" data-cat="spices">
+    <div class="cat-heading"><span>🌶️</span> Spices &amp; Condiments</div>
+    <div class="row g-3">
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🌶️</div>
+          <div class="card-body">
+            <div class="card-title">Red Chilli Powder</div>
+            <div class="card-desc">Sun-dried and hand-ground red chilli — no artificial colour or additives.</div>
+            <span class="unit-badge">Per 100g / 500g / Kg</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Red%20Chilli%20Powder.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">💛</div>
+          <div class="card-body">
+            <div class="card-title">Organic Turmeric Powder</div>
+            <div class="card-desc">Pure Lakadong-style turmeric — high curcumin, naturally dried and ground.</div>
+            <span class="unit-badge">Per 100g / 500g / Kg</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Turmeric%20Powder.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🟤</div>
+          <div class="card-body">
+            <div class="card-title">Coriander Powder</div>
+            <div class="card-desc">Freshly ground coriander — aromatic, pure, with no filler or starch added.</div>
+            <span class="unit-badge">Per 100g / 500g</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Coriander%20Powder.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🧄</div>
+          <div class="card-body">
+            <div class="card-title">Garlic &amp; Ginger</div>
+            <div class="card-desc">Farm-grown organic garlic and ginger — available fresh or dried.</div>
+            <span class="unit-badge">Per 250g / Kg</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Garlic%20%26%20Ginger.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TEA & HERBAL -->
+  <div class="cat-section" data-cat="tea">
+    <div class="cat-heading"><span>🍃</span> Tea, Coffee &amp; Herbal Products</div>
+    <div class="row g-3">
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🍃</div>
+          <div class="card-body">
+            <div class="card-title">Organic Green Tea</div>
+            <div class="card-desc">Naturally grown green tea — light, refreshing and full of antioxidants.</div>
+            <span class="unit-badge">Per 100g / 250g</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Green%20Tea.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">☕</div>
+          <div class="card-body">
+            <div class="card-title">Herbal Tea Blend</div>
+            <div class="card-desc">Tulsi, ginger, lemongrass blend — naturally healing herbal tea.</div>
+            <span class="unit-badge">Per 100g / 250g</span>
+            <span class="organic-tag">🌿 Herbal</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Herbal%20Tea%20Blend.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🌼</div>
+          <div class="card-body">
+            <div class="card-title">Moringa Powder</div>
+            <div class="card-desc">Superfood moringa (drumstick leaf) powder — protein-rich and immunity boosting.</div>
+            <span class="unit-badge">Per 100g / 250g</span>
+            <span class="organic-tag">🌿 Herbal</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Moringa%20Powder.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🍯</div>
+          <div class="card-body">
+            <div class="card-title">Natural Honey</div>
+            <div class="card-desc">Raw, unprocessed forest honey — no sugar added, no heating, 100% pure.</div>
+            <span class="unit-badge">Per 250g / 500g</span>
+            <span class="organic-tag">🌿 Natural</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Natural%20Honey.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GRAINS -->
+  <div class="cat-section" data-cat="grains">
+    <div class="cat-heading"><span>🌾</span> Grains, Pulses &amp; Staples</div>
+    <div class="row g-3">
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🌾</div>
+          <div class="card-body">
+            <div class="card-title">Organic Rice</div>
+            <div class="card-desc">Traditional Odisha varieties — Kalajeera, Gobindobhog and more. Pesticide-free.</div>
+            <span class="unit-badge">Per Kg / 5Kg / 25Kg</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Rice.%20Please%20share%20varieties%2C%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🫘</div>
+          <div class="card-body">
+            <div class="card-title">Organic Pulses (Dal)</div>
+            <div class="card-desc">Moong, masoor, chana, arhar dal — naturally farmed, unpolished, nutritious.</div>
+            <span class="unit-badge">Per Kg / 5Kg</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Pulses%20%2F%20Dal.%20Please%20share%20varieties%2C%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🌽</div>
+          <div class="card-body">
+            <div class="card-title">Organic Wheat &amp; Flour</div>
+            <div class="card-desc">Whole wheat grain and atta — stone-ground, unrefined, full of fibre.</div>
+            <span class="unit-badge">Per Kg / 5Kg / 10Kg</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Wheat%20%2F%20Flour.%20Please%20share%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="card-emoji">🌱</div>
+          <div class="card-body">
+            <div class="card-title">Millets (Ragi, Bajra, Jowar)</div>
+            <div class="card-desc">Nutritious organic millets — gluten-free, high fibre, great for health-conscious buyers.</div>
+            <span class="unit-badge">Per Kg / 5Kg</span>
+            <span class="organic-tag">🌿 Organic</span>
+          </div>
+          <div class="card-footer-area">
+            <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20order%20Organic%20Millets.%20Please%20share%20varieties%2C%20price%20and%20availability."
+               class="btn-wa-order" target="_blank">
+              <i class="bi bi-whatsapp"></i> Order on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /menuContainer -->
+
+<!-- ══════════════ HOW TO ORDER STEPS ══════════════ -->
+<section class="py-5" style="background:#fff;">
+  <div class="container py-4">
+    <div class="text-center mb-5">
+      <p class="text-uppercase fw-bold mb-1" style="color:var(--orange); letter-spacing:2px; font-size:.85rem;">Simple &amp; Fast</p>
+      <h2 style="font-weight:800; color:var(--dark); font-size:1.9rem;">How to <span style="color:var(--green);">Place Your Order</span></h2>
+      <div style="width:60px;height:4px;background:var(--orange);border-radius:2px;margin:10px auto 0;"></div>
+    </div>
+    <div class="step-wrap">
+      <div class="row align-items-center g-3">
+        <div class="col-6 col-md-3">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <h6>Browse the Menu</h6>
+            <p>Find the product you need from the categories above</p>
+          </div>
+        </div>
+        <div class="col-1 d-none d-md-block step-arrow">›</div>
+        <div class="col-6 col-md-3">
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <h6>Tap "Order on WhatsApp"</h6>
+            <p>Click the green button — a pre-filled message opens instantly</p>
+          </div>
+        </div>
+        <div class="col-1 d-none d-md-block step-arrow">›</div>
+        <div class="col-6 col-md-3">
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <h6>Confirm Your Order</h6>
+            <p>Tell us your quantity and location — we'll confirm price and delivery</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20want%20to%20place%20a%20bulk%20order.%20Please%20share%20your%20full%20product%20list%20and%20wholesale%20prices."
+           class="btn-bulk-wa" target="_blank">
+          <i class="bi bi-whatsapp"></i> Chat with Us on WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ BULK / SHOP CTA ══════════════ -->
+<section class="py-5" style="background:var(--light-bg);">
+  <div class="container py-2">
+    <div class="bulk-cta">
+      <i class="bi bi-shop-window fs-1 mb-3 d-block" style="color:var(--orange);"></i>
+      <h3>Are You a Shop Owner or Retailer?</h3>
+      <p>
+        We supply organic products in bulk to kirana stores, grocery shops, health food outlets and
+        small businesses across Kendrapara and Odisha. Get wholesale prices and regular supply.
+      </p>
+      <a href="https://wa.me/918249670050?text=Hello%20Jibamrit%20Agro!%20I%20am%20a%20shop%20owner%20interested%20in%20bulk%20wholesale%20supply%20of%20your%20organic%20products.%20Please%20share%20your%20wholesale%20price%20list."
+         class="btn-bulk-wa" target="_blank">
+        <i class="bi bi-whatsapp"></i> Enquire for Wholesale
+      </a>
+      <a href="tel:8249670050" class="btn-bulk-call">
+        <i class="bi bi-telephone-fill"></i> Call 8249670050
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="pt-5 pb-3">
+  <div class="container">
+    <div class="row g-4 pb-4">
+      <div class="col-md-4">
+        <img src="assets/img/logo.jpeg" alt="Jibamrit Agro" class="footer-logo"/>
+        <p class="small mt-2" style="color:#aaa;">
+          Jibamrit Agro (OPC) Private Limited — growing organic produce with integrity
+          from the heartland of Odisha since 2025.
+        </p>
+        <div class="mt-3">
+          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+          <a href="https://wa.me/918249670050" target="_blank" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <h6>Quick Links</h6>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="menu.html">Order Menu</a>
+        <a href="index.html#certifications">Certifications</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="col-md-3">
+        <h6>Product Categories</h6>
+        <a href="menu.html">Fruits &amp; Vegetables</a>
+        <a href="menu.html">Dairy Products</a>
+        <a href="menu.html">Edible Oils</a>
+        <a href="menu.html">Organic Spices</a>
+        <a href="menu.html">Tea &amp; Herbal</a>
+        <a href="menu.html">Grains &amp; Pulses</a>
+      </div>
+      <div class="col-md-3">
+        <h6>Contact</h6>
+        <p class="small" style="color:#aaa;">
+          <i class="bi bi-geo-alt-fill me-2" style="color:var(--orange);"></i>
+          AT-Sanamangarajpur, Dhola, Indupur,<br/>Kendrapara, Odisha – 754214
+        </p>
+        <p class="small" style="color:#aaa;">
+          <i class="bi bi-telephone-fill me-2" style="color:var(--orange);"></i>
+          <a href="tel:8249670050" style="color:#aaa;">8249670050</a>
+        </p>
+        <p class="small" style="color:#aaa;">
+          <i class="bi bi-envelope-fill me-2" style="color:var(--orange);"></i>
+          <a href="mailto:Jibamritagropvtltd@gmail.com" style="color:#aaa; word-break:break-all;">Jibamritagropvtltd@gmail.com</a>
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom pt-3">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <p class="mb-0 small" style="color:#666;">&copy; 2025 Jibamrit Agro (OPC) Private Limited. All rights reserved.</p>
+        <div class="d-flex gap-2 flex-wrap">
+          <span class="badge-msme">MSME Registered</span>
+          <span class="badge-msme">MCA Incorporated</span>
+          <span class="badge-msme">100% Organic</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ── Category filter tabs ──
+  const tabs = document.querySelectorAll('.btn-filter');
+  const sections = document.querySelectorAll('.cat-section');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      const cat = tab.dataset.cat;
+      sections.forEach(sec => {
+        if (cat === 'all' || sec.dataset.cat === cat) {
+          sec.style.display = '';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+
+      // Smooth scroll to menu
+      document.getElementById('menuContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
